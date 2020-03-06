@@ -1,26 +1,38 @@
 import 'package:flutter/material.dart';
 
-void main() {
+void main(){
   runApp(new MaterialApp(
-   home: MyTextField(),
+    home: MyDialog(),
   ));
 }
 
-class MyTextField extends StatefulWidget {
+class MyDialog extends StatefulWidget {
+
   @override
-  _MyTextFieldState createState() => new _MyTextFieldState();
+  _MyDialogState createState() => new _MyDialogState();
  }
 
-class _MyTextFieldState extends State<MyTextField> {
+  
 
-  String inputv = "";
 
-  final TextEditingController control = new TextEditingController();
 
-  void onSubmitted(String dato){
+class _MyDialogState extends State<MyDialog> {
+
+  String _inputv = "";
+
+  void _showAlert(String dato){
+
+    AlertDialog dialogo = new AlertDialog(
+      title: new Text("este titulo"),
+      content: new Text(dato),
+
+    );
+    showDialog(context: context, child: dialogo);
+  }
+
+  void _onchange(String dato){
     setState(() {
-      inputv=dato;
-      control.text="";
+      _inputv =dato;
     });
   }
 
@@ -28,27 +40,33 @@ class _MyTextFieldState extends State<MyTextField> {
   Widget build(BuildContext context) {
    return new Scaffold(
      appBar: new AppBar(
-       title: new Text("mi titulo"),
-       backgroundColor: Colors.redAccent,
+       title: new Text("Mi Titulo"),
      ),
 
      body: new Container(
-       child: Center(
+       child: new Center(
          child: new Column(
            children: <Widget>[
 
              new TextField(
-              decoration: new InputDecoration(hintText: "ingrese el texto"),
-              onSubmitted: (String value){
-                onSubmitted(value);
-              }, 
-              controller: control,
+               decoration: new InputDecoration(
+                 hintText: "ingrese el texto",
+               ),
+               onChanged: (String value){_onchange(value); },
              ),
-              new Text(inputv),
+             
+
+            new RaisedButton(
+              child: new Text("ver Alerta"),
+              onPressed: (){_showAlert(_inputv );}
+              ),
+
            ],
-         )
+         ),
        ),
      ),
    );
   }
+
+
 }
