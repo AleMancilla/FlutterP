@@ -1,67 +1,56 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void main(){
-  runApp(
-    new MaterialApp(
-      home: miClase(),
-    ),
-    );
+  runApp(new MaterialApp(
+    home: MyButton(),
+  ));
 }
 
-class miClase extends StatelessWidget{
+class MyButton extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return Scaffold(//esquema basico de una aplicacion
-      appBar: new AppBar(
-        title: new Text('Mi Barra Superior'),
-      ),
+  _MyButtonState createState() =>_MyButtonState();// create state se encarga de manejar el estado de nuestro widget
+}
 
-      body: new Container(
-        child: Center(
-          child: new Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            new MyCard(title: new Text("i Love Flutter", style: new TextStyle(color: Colors.grey, fontSize: 30.0),),icon: new Icon(Icons.favorite, size: 40.0, color: Colors.redAccent,) ),
-            new MyCard(title: new Text("i Love me"),icon: new Icon(Icons.thumb_up, size: 40.0,color: Colors.blueAccent,) ),
-            new MyCard(title: new Text("i Love you"),icon: new Icon(Icons.queue_play_next, size: 40.0,) ),
-          ],
-        ),
-        )
-        
-      ),
-    );
+class _MyButtonState extends State<MyButton>{
+
+  String vartexto = "hola";
+  int index = 0;
+  List<String> coleccion = ["fluter","es","genial"];
+
+  void onPressButton(){
+    setState(() {//actualiza el estado de widget y lo renderiza
+      vartexto = coleccion[index];
+      index = index <2 ? index+1 : 0 ;
+    });
   }
 
-}
-
-
-class MyCard extends StatelessWidget{
-
-  //recibir propiedades
-  final Widget title;
-  final Widget icon;
-
-  MyCard({this.title, this.icon});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {//encargado de escribir los widget
     // TODO: implement build
-    return Container(
-      padding: const EdgeInsets.only(bottom: 2.0),
-      child: new Card(
-        child: new Container(
-          padding: const EdgeInsets.all(20.0),
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text('mi barra'),
+        backgroundColor: Colors.orangeAccent,
+        ),
         
-        child: Column(
-          children: <Widget>[
-            this.title,
-            this.icon,
-          ],
+        body: new Container(
+          child: new Center(
+            child: new Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              
+              new Text(vartexto, style: new TextStyle(fontSize: 40.0),),
+              new Padding(padding: new EdgeInsets.all(10.0)),
+              new RaisedButton(
+                child: new Text("Actualizar", style: new TextStyle(color: Colors.white),),
+                color: Colors.blueAccent,
+                onPressed: onPressButton,
+                )
+            ],
+          ),
+          ),
         ),
-        ),
-      ),
     );
   }
 
