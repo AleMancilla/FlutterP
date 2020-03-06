@@ -1,57 +1,46 @@
 import 'package:flutter/material.dart';
 
-void main(){
+void main() {
   runApp(new MaterialApp(
-    home: MyButton(),
+   home: MyTextField(),
   ));
 }
 
-class MyButton extends StatefulWidget {
+class MyTextField extends StatefulWidget {
   @override
-  _MyButtonState createState() =>_MyButtonState();// create state se encarga de manejar el estado de nuestro widget
-}
+  _MyTextFieldState createState() => new _MyTextFieldState();
+ }
 
-class _MyButtonState extends State<MyButton>{
+class _MyTextFieldState extends State<MyTextField> {
 
-  String vartexto = "hola";
-  int index = 0;
-  List<String> coleccion = ["fluter","es","genial"];
-
-  void onPressButton(){
-    setState(() {//actualiza el estado de widget y lo renderiza
-      vartexto = coleccion[index];
-      index = index <2 ? index+1 : 0 ;
-    });
+  void onChanged(String dato){
+    print(dato);
   }
 
-
   @override
-  Widget build(BuildContext context) {//encargado de escribir los widget
-    // TODO: implement build
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('mi barra'),
-        backgroundColor: Colors.orangeAccent,
-        ),
-        
-        body: new Container(
-          child: new Center(
-            child: new Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              
-              new Text(vartexto, style: new TextStyle(fontSize: 40.0),),
-              new Padding(padding: new EdgeInsets.all(10.0)),
-              new RaisedButton(
-                child: new Text("Actualizar", style: new TextStyle(color: Colors.white),),
-                color: Colors.blueAccent,
-                onPressed: onPressButton,
-                )
-            ],
-          ),
-          ),
-        ),
-    );
-  }
+  Widget build(BuildContext context) {
+   return new Scaffold(
+     appBar: new AppBar(
+       title: new Text("mi titulo"),
+       backgroundColor: Colors.redAccent,
+     ),
 
+     body: new Container(
+       child: Center(
+         child: new Column(
+           children: <Widget>[
+
+             new TextField(
+              decoration: new InputDecoration(hintText: "ingrese el texto"),
+              onSubmitted: (String value){
+                onChanged(value);
+              }, 
+             )
+
+           ],
+         )
+       ),
+     ),
+   );
+  }
 }
