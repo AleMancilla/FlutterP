@@ -13,8 +13,15 @@ class MyTextField extends StatefulWidget {
 
 class _MyTextFieldState extends State<MyTextField> {
 
-  void onChanged(String dato){
-    print(dato);
+  String inputv = "";
+
+  final TextEditingController control = new TextEditingController();
+
+  void onSubmitted(String dato){
+    setState(() {
+      inputv=dato;
+      control.text="";
+    });
   }
 
   @override
@@ -33,10 +40,11 @@ class _MyTextFieldState extends State<MyTextField> {
              new TextField(
               decoration: new InputDecoration(hintText: "ingrese el texto"),
               onSubmitted: (String value){
-                onChanged(value);
+                onSubmitted(value);
               }, 
-             )
-
+              controller: control,
+             ),
+              new Text(inputv),
            ],
          )
        ),
