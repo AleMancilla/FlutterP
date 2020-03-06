@@ -1,74 +1,68 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class MyAppBar extends StatelessWidget{
-
-  MyAppBar({this.title});
-
-  final Widget title;
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return Container(
-      height: 76.0,
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      decoration: BoxDecoration(color: Colors.blue[500]),
-      child: Row(
-        children:<Widget>[
-          IconButton(
-            icon: Icon(Icons.menu),
-            tooltip: 'Navigation Menu',
-            onPressed: null,
-          ),
-
-          Expanded(
-            child: title,
-          ),
-          
-          IconButton(
-            icon: Icon(Icons.search),
-            tooltip: 'Search', 
-            onPressed: null,
-            ),
-        ]
-      )
+void main(){
+  runApp(
+    new MaterialApp(
+      home: miClase(),
+    ),
     );
-  }
-  
 }
 
-class MyScaffold extends StatelessWidget{
-
+class miClase extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Material(
-      child: Column(
+    return Scaffold(//esquema basico de una aplicacion
+      appBar: new AppBar(
+        title: new Text('Mi Barra Superior'),
+      ),
 
-        children: <Widget>[
-          MyAppBar(
-            title: Text(
-              'Example Title', 
-              style: Theme.of(context).primaryTextTheme.title,
-              ),
-          ),
-
-          Expanded(child: Center(
-            child: Text('Hola Mundo'),
-          ),
-          ),
-          
-        ],
+      body: new Container(
+        child: Center(
+          child: new Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            new MyCard(title: new Text("i Love Flutter", style: new TextStyle(color: Colors.grey, fontSize: 30.0),),icon: new Icon(Icons.favorite, size: 40.0, color: Colors.redAccent,) ),
+            new MyCard(title: new Text("i Love me"),icon: new Icon(Icons.thumb_up, size: 40.0,color: Colors.blueAccent,) ),
+            new MyCard(title: new Text("i Love you"),icon: new Icon(Icons.queue_play_next, size: 40.0,) ),
+          ],
+        ),
+        )
+        
       ),
     );
   }
 
 }
 
-void main(){
-  runApp(MaterialApp(
-    title: 'My app',
-    home: MyScaffold(),
-  )
-  );
+
+class MyCard extends StatelessWidget{
+
+  //recibir propiedades
+  final Widget title;
+  final Widget icon;
+
+  MyCard({this.title, this.icon});
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Container(
+      padding: const EdgeInsets.only(bottom: 2.0),
+      child: new Card(
+        child: new Container(
+          padding: const EdgeInsets.all(20.0),
+        
+        child: Column(
+          children: <Widget>[
+            this.title,
+            this.icon,
+          ],
+        ),
+        ),
+      ),
+    );
+  }
+
 }
