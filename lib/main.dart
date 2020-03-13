@@ -1,81 +1,71 @@
 import 'package:flutter/material.dart';
 
-void main(){
+void main() {
   runApp(new MaterialApp(
-    home: MyDialog(),
+   home: MyStepper(),
   ));
 }
 
-class MyDialog extends StatefulWidget {
-
+class MyStepper extends StatefulWidget {
   @override
-  _MyDialogState createState() => new _MyDialogState();
+  _MyStepperState createState() => new _MyStepperState();
  }
+class _MyStepperState extends State<MyStepper> {
 
-  enum DialogAction{yes,no}
-
-
-
-class _MyDialogState extends State<MyDialog> {
-
-  String _inputv = "";
-
-  void _alertResult(DialogAction action){
-    print("tu accion es $action");
-  }
-
-  void _showAlert(String dato){
-
-    AlertDialog dialogo = new AlertDialog(
-      title: new Text("este titulo"),
-      content: new Text(dato),
-      actions: <Widget>[
-        new FlatButton(onPressed: (){_alertResult(DialogAction.yes);}, child: new Text("si")),
-        new FlatButton(onPressed: (){_alertResult(DialogAction.no);}, child: new Text("no")),
-        
-      ],
-
-    );
-    showDialog(context: context, child: dialogo);
-  }
-
-  void _onchange(String dato){
-    setState(() {
-      _inputv =dato;
-    });
-  }
+  int _paso =0;
+  List<Step> myStep = [
+    new Step(title: new Text("paso 1"), content: new Text("Aprender flutter")),
+    new Step(title: new Text("paso 2"), content: new Text("Aprender react")),
+    new Step(title: new Text("paso 3"), content: new Text("Todo Listo"))
+  ];
 
   @override
   Widget build(BuildContext context) {
    return new Scaffold(
+     
      appBar: new AppBar(
-       title: new Text("Mi Titulo"),
+       title: new Text("Mi barra"),
      ),
 
      body: new Container(
-       child: new Center(
-         child: new Column(
-           children: <Widget>[
+       child: new Stepper(
+         //nos indica cual es el paso actual del steper
+         currentStep: this._paso,
+         steps: myStep,
+         type: StepperType.horizontal,
 
-             new TextField(
-               decoration: new InputDecoration(
-                 hintText: "ingrese el texto",
-               ),
-               onChanged: (String value){_onchange(value); },
-             ),
-             
+          onStepCancel: (){
+            setState((){
+              if(_paso>0)
+            {
+              _paso = _paso-1;
+            }else{
+              _paso=0;
+            }
+            });
+            
+          },
 
-            new RaisedButton(
-              child: new Text("ver Alerta"),
-              onPressed: (){_showAlert(_inputv );}
-              ),
-
-           ],
-         ),
+         onStepContinue: (){
+           setState(() {
+             if(_paso < myStep.length-1){
+               _paso=_paso+1;
+             }
+             else{
+               _paso = 0;
+             }
+           });
+         },
+         
+         onStepTapped: (step){
+           setState(() {
+             _paso = step;
+           });
+         },
        ),
      ),
+
+      
    );
-  }
-
-
-}
+  }   
+}   
